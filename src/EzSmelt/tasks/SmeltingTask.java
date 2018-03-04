@@ -38,7 +38,8 @@ public class SmeltingTask extends Task {
         }
 
         return !(ctx.players.local().animation() == SMELTING)
-                && ctx.inventory.select().id(COPPER_ID, TIN_ID).count() > 1;
+                && ctx.inventory.select().id(COPPER_ID, TIN_ID).count() > 1
+                && ctx.objects.select().id(FURNACE_ID).poll().tile().distanceTo(ctx.players.local()) < 4;
     }
 
     @Override

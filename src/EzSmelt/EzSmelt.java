@@ -1,7 +1,8 @@
 package EzSmelt;
 
+import EzSmelt.tasks.BankTask;
 import EzSmelt.tasks.SmeltingTask;
-import EzSmelt.tasks.WalkToBankTask;
+import EzSmelt.tasks.WalkTask;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;
 import org.powerbot.script.rt4.ClientContext;
@@ -19,8 +20,9 @@ public class EzSmelt extends PollingScript<ClientContext> {
 
     @Override
     public void start() {
+        taskList.add(new BankTask(ctx));
         taskList.add(new SmeltingTask(ctx));
-        taskList.add(new WalkToBankTask(ctx));
+        taskList.add(new WalkTask(ctx));
     }
 
     @Override
