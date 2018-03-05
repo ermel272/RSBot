@@ -1,4 +1,4 @@
-package EzSmelt.tasks;
+package EzSmelt.tasks.smelting;
 
 import EzSmelt.Task;
 import org.powerbot.script.Condition;
@@ -8,20 +8,17 @@ import org.powerbot.script.rt4.GameObject;
 
 import java.util.concurrent.Callable;
 
-public class SmeltingTask extends Task {
+public abstract class SmeltingTask extends Task {
 
     // Animation statuses
     private final static int IDLE = -1;
     private final static int SMELTING = 899;
 
     // Element IDs
-    private final static int COPPER_ID = 436;
-    private final static int TIN_ID = 438;
     private final static int FURNACE_ID = 24009;
     private final static int SMELT_WINDOW_ID = 270;
-    private final static int BRONZE_BAR_BUTTON_ID = 14;
 
-    public SmeltingTask(ClientContext ctx) {
+    SmeltingTask(ClientContext ctx) {
         super(ctx);
     }
 
@@ -38,7 +35,7 @@ public class SmeltingTask extends Task {
         }
 
         return !(ctx.players.local().animation() == SMELTING)
-                && ctx.inventory.select().id(COPPER_ID, TIN_ID).count() > 1
+                && needToSmelt()
                 && ctx.objects.select().id(FURNACE_ID).poll().tile().distanceTo(ctx.players.local()) < 4;
     }
 
@@ -50,12 +47,16 @@ public class SmeltingTask extends Task {
         Condition.wait(new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                return ctx.widgets.component(SMELT_WINDOW_ID, BRONZE_BAR_BUTTON_ID) != null;
+                return ctx.widgets.component(SMELT_WINDOW_ID, getBarButton()) != null;
             }
         }, 1000, 2);
 
-        Component bronzeBarButton = ctx.widgets.component(SMELT_WINDOW_ID, BRONZE_BAR_BUTTON_ID);
+        Component bronzeBarButton = ctx.widgets.component(SMELT_WINDOW_ID, getBarButton());
         if (bronzeBarButton == null) { return; }
         bronzeBarButton.interact("Smelt");
     }
+
+    public abstract boolean needToSmelt();
+    public abstract int getBarButton();
 }
+

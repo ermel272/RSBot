@@ -1,4 +1,4 @@
-package EzSmelt;
+package EzSmelt.tasks.walking;
 
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;

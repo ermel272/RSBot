@@ -1,8 +1,8 @@
 package EzSmelt;
 
-import EzSmelt.tasks.BankTask;
-import EzSmelt.tasks.SmeltingTask;
-import EzSmelt.tasks.WalkTask;
+import EzSmelt.tasks.banking.BankIronTask;
+import EzSmelt.tasks.smelting.IronSmeltingTask;
+import EzSmelt.tasks.walking.IronWalkTask;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;
 import org.powerbot.script.rt4.ClientContext;
@@ -14,15 +14,13 @@ import java.util.List;
 
 public class EzSmelt extends PollingScript<ClientContext> {
 
-    private final static int BRONZE_BAR_ID = 2349;
-
     private List<Task> taskList = new ArrayList<Task>();
 
     @Override
     public void start() {
-        taskList.add(new BankTask(ctx));
-        taskList.add(new SmeltingTask(ctx));
-        taskList.add(new WalkTask(ctx));
+        taskList.add(new BankIronTask(ctx));
+        taskList.add(new IronSmeltingTask(ctx));
+        taskList.add(new IronWalkTask(ctx));
     }
 
     @Override
