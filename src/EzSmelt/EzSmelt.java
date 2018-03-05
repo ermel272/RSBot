@@ -1,12 +1,16 @@
 package EzSmelt;
 
+import EzSmelt.tasks.banking.BankBronzeTask;
 import EzSmelt.tasks.banking.BankIronTask;
+import EzSmelt.tasks.smelting.BronzeSmeltingTask;
 import EzSmelt.tasks.smelting.IronSmeltingTask;
+import EzSmelt.tasks.walking.BronzeWalkTask;
 import EzSmelt.tasks.walking.IronWalkTask;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;
 import org.powerbot.script.rt4.ClientContext;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +22,31 @@ public class EzSmelt extends PollingScript<ClientContext> {
 
     @Override
     public void start() {
-        taskList.add(new BankIronTask(ctx));
-        taskList.add(new IronSmeltingTask(ctx));
-        taskList.add(new IronWalkTask(ctx));
+        // Bring up option window
+        String userOptions[] = {"Bronze", "Iron"};
+        String userChoice = (String) JOptionPane.showInputDialog(
+                null,
+                "Choose smelt type",
+                "EzSmelt",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                userOptions,
+                userOptions[0]
+        );
+
+        if (userOptions[0].equals(userChoice)) {
+            taskList.add(new BankBronzeTask(ctx));
+            taskList.add(new BronzeSmeltingTask(ctx));
+            taskList.add(new BronzeWalkTask(ctx));
+
+        } else if (userOptions[1].equals(userChoice)){
+            taskList.add(new BankIronTask(ctx));
+            taskList.add(new IronSmeltingTask(ctx));
+            taskList.add(new IronWalkTask(ctx));
+
+        } else {
+            ctx.controller.stop();
+        }
     }
 
     @Override

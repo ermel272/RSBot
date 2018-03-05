@@ -20,6 +20,7 @@ public class BronzeWalkTask extends WalkTask {
 
     @Override
     public boolean walkToBank() {
-        return ctx.inventory.select().id(COPPER_ID, TIN_ID).count() <= 1;
+        return ctx.inventory.select().id(COPPER_ID).count() < 1
+                || ctx.inventory.select().id(TIN_ID).count() < 1;
     }
 }
