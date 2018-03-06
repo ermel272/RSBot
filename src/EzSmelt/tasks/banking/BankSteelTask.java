@@ -21,6 +21,8 @@ public class BankSteelTask extends BankTask {
 
     @Override
     public boolean withdraw() {
-        return ctx.bank.withdraw(IRON_ID, 9) && ctx.bank.withdraw(COAL_ID, 18);
+        return ctx.bank.select().id(COAL_ID).count() >= 2
+                && ctx.bank.withdraw(IRON_ID, 9)
+                && ctx.bank.withdraw(COAL_ID, 18);
     }
 }
